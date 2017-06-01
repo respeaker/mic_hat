@@ -1,6 +1,5 @@
 
 import apa102
-import numpy
 import time
 import threading
 try:
@@ -13,12 +12,12 @@ class Pixels:
     PIXELS_N = 3
 
     def __init__(self):
-        self.basis = numpy.array([0] * 3 * self.PIXELS_N)
+        self.basis = [0] * 3 * self.PIXELS_N
         self.basis[0] = 1
         self.basis[4] = 1
         self.basis[8] = 2
 
-        self.colors = numpy.array([0] * 3 * self.PIXELS_N)
+        self.colors = [0] * 3 * self.PIXELS_N
         self.dev = apa102.APA102(num_led=self.PIXELS_N)
 
         self.next = threading.Event()
@@ -57,7 +56,7 @@ class Pixels:
 
     def _wakeup(self, direction=0):
         for i in range(1, 25):
-            colors = self.basis * i
+            colors = [i * v for v in self.basis]
             self.write(colors)
             time.sleep(0.01)
 
@@ -65,7 +64,7 @@ class Pixels:
 
     def _listen(self):
         for i in range(1, 25):
-            colors = self.basis * i
+            colors = [i * v for v in self.basis]
             self.write(colors)
             time.sleep(0.01)
 
@@ -76,13 +75,13 @@ class Pixels:
 
         self.next.clear()
         while not self.next.is_set():
-            colors = numpy.roll(colors, 3)
+            colors = colors[3:] + colors[:3]
             self.write(colors)
             time.sleep(0.2)
 
         t = 0.1
         for i in range(0, 5):
-            colors = numpy.roll(colors, 3)
+            colors = colors[3:] + colors[:3]
             self.write(colors * (4 - i) / 4)
             time.sleep(t)
             t /= 2
