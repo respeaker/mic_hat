@@ -82,7 +82,8 @@ class Pixels:
         t = 0.1
         for i in range(0, 5):
             colors = colors[3:] + colors[:3]
-            self.write(colors * (4 - i) / 4)
+            colors = [(v * (4 - i) / 4) for v in colors]
+            self.write(colors)
             time.sleep(t)
             t /= 2
 
@@ -96,13 +97,15 @@ class Pixels:
         self.next.clear()
         while not self.next.is_set():
             for i in range(5, 25):
-                self.write(colors * i / 24)
+                colors = [(v * i / 24) for v in colors]
+                self.write(colors)
                 time.sleep(0.01)
 
             time.sleep(0.3)
 
             for i in range(24, 4, -1):
-                self.write(colors * i / 24)
+                colors = [(v * i / 24) for v in colors]
+                self.write(colors)
                 time.sleep(0.01)
 
             time.sleep(0.3)
