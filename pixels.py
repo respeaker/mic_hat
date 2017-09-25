@@ -96,15 +96,13 @@ class Pixels:
         self.next.clear()
         while not self.next.is_set():
             for i in range(5, 25):
-                colors = [(v * i / 24) for v in colors]
-                self.write(colors)
+                self.write([(v * i / 24) for v in colors])
                 time.sleep(0.01)
 
             time.sleep(0.3)
 
             for i in range(24, 4, -1):
-                colors = [(v * i / 24) for v in colors]
-                self.write(colors)
+                self.write([(v * i / 24) for v in colors])
                 time.sleep(0.01)
 
             time.sleep(0.3)
