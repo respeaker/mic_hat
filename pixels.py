@@ -92,22 +92,26 @@ class Pixels:
 
     def _speak(self):
         colors = self.colors
+        gradient = -1
+        position = 24
 
         self.next.clear()
         while not self.next.is_set():
-            for i in range(5, 25):
-                self.write([(v * i / 24) for v in colors])
+            position += gradient
+            self.write([(v * position / 24) for v in colors])
+
+            if position == 24 or position == 4:
+                gradient = -gradient
+                time.sleep(0.2)
+            else:
                 time.sleep(0.01)
 
-            time.sleep(0.3)
+        while position > 0:
+            position -= 1
+            self.write([(v * position / 24) for v in colors])
+            time.sleep(0.01)
 
-            for i in range(24, 4, -1):
-                self.write([(v * i / 24) for v in colors])
-                time.sleep(0.01)
-
-            time.sleep(0.3)
-
-        self._off()
+        # self._off()
 
     def _off(self):
         self.write([0] * 3 * self.PIXELS_N)
