@@ -71,7 +71,7 @@ class APA102:
     down the line to the last LED.
     """
     # Constants
-    MAX_BRIGHTNESS = 31 # Safeguard: Set to a value appropriate for your setup
+    MAX_BRIGHTNESS = 0b11111 # Safeguard: Set to a value appropriate for your setup
     LED_START = 0b11100000 # Three "1" bits, followed by 5 brightness bits
 
     def __init__(self, num_led, global_brightness=MAX_BRIGHTNESS,
@@ -128,9 +128,12 @@ class APA102:
         of the driver could omit the "clockStartFrame" method if enough zeroes have
         been sent as part of "clockEndFrame".
         """
+
+        self.spi.xfer2([0xFF] * 4)
+
         # Round up num_led/2 bits (or num_led/16 bytes)
-        for _ in range((self.num_led + 15) // 16):
-            self.spi.xfer2([0x00])
+        #for _ in range((self.num_led + 15) // 16):
+        #    self.spi.xfer2([0x00])
 
 
     def clear_strip(self):
@@ -156,8 +159,7 @@ class APA102:
         # Calculate pixel brightness as a percentage of the
         # defined global_brightness. Round up to nearest integer
         # as we expect some brightness unless set to 0
-        brightness = ceil(bright_percent*self.global_brightness/100.0)
-        brightness = int(brightness)
+        brightness = int(ceil(bright_percent*self.global_brightness/100.0))
 
         # LED startframe is three "1" bits, followed by 5 brightness bits
         ledstart = (brightness & 0b00011111) | self.LED_START
@@ -201,7 +203,10 @@ class APA102:
         self.clock_start_frame()
         # xfer2 kills the list, unfortunately. So it must be copied first
         # SPI takes up to 4096 Integers. So we are fine for up to 1024 LEDs.
-        self.spi.xfer2(list(self.leds))
+        data = list(self.leds)
+        while data:
+            self.spi.xfer2(data[:32])
+            data = data[32:]
         self.clock_end_frame()
 
 
