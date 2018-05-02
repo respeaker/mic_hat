@@ -1,7 +1,10 @@
 """
-from https://github.com/tinue/APA102_Pi
+The code is based on https://github.com/tinue/APA102_Pi
 This is the main driver module for APA102 LEDs
+
+License: GPL V2
 """
+
 import spidev
 from math import ceil
 

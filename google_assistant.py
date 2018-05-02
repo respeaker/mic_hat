@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-# Copyright (C) 2017 Google Inc.
+# The code is based on google-assistant-sdk's hotword.py
+# LED light is added to notify its status.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
