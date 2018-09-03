@@ -21,7 +21,7 @@ To build voice enabled projects with Google Assistant, Amazon Alexa Voice servic
 
 ## Build a Google Home like device with Google Assistant SDK
 1. Setup [google-assistant-library](https://github.com/googlesamples/assistant-sdk-python/tree/master/google-assistant-sdk/googlesamples/assistant/library)
-2. Run `python google_assistant.py`
+2. Run `python google_assistant.py --device_model_id 'respeaker-xyz'`
 
 ## Build an Echo like device with Alexa Voice Service
 1. `pip install avs voice-engine`
