@@ -82,6 +82,10 @@ def process_event(event, device_id):
     if event.type == EventType.ON_DEVICE_ACTION:
         for command, params in process_device_actions(event, device_id):
             print('Do command', command, 'with params', str(params))
+    
+    if event.type == EventType.ON_START_FINISHED:
+        pixels.off()
+        print()
 
 
 def register_device(project_id, credentials, device_model_id, device_id):
